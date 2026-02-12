@@ -1,21 +1,14 @@
-# TASK 2: AI-Powered Chatbot (Rule-Based + ML with NLP)
 
 import datetime
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-# -------------------------
-# NLP Preprocessing Function
-# -------------------------
 def preprocess(text):
     text = text.lower()
     text = re.sub(r'[^a-z\s]', '', text)
     return text
 
-# -------------------------
-# Training Data (Intent Identification)
-# -------------------------
 training_sentences = [
     "hello", "hi", "hey",
     "bye", "goodbye",
@@ -44,9 +37,6 @@ model.fit(X, intents)
 
 print("Chatbot started! Type 'exit' to stop.")
 
-# -------------------------
-# Conversation Flow
-# -------------------------
 while True:
     user_input = input("You: ")
 
@@ -56,9 +46,6 @@ while True:
 
     clean_input = preprocess(user_input)
 
-    # -------------------------
-    # Rule-Based FAQ Responses
-    # -------------------------
     if "time" in clean_input:
         print("Bot:", datetime.datetime.now().strftime("%H:%M:%S"))
         continue
@@ -67,15 +54,9 @@ while True:
         print("Bot:", datetime.date.today())
         continue
 
-    # -------------------------
-    # ML Intent Classification
-    # -------------------------
     transformed = vectorizer.transform([clean_input])
     intent = model.predict(transformed)[0]
 
-    # -------------------------
-    # Responses
-    # -------------------------
     if intent == "greeting":
         print("Bot: Hello! How can I help you?")
 
