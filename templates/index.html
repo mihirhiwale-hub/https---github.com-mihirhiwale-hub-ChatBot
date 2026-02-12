@@ -5,10 +5,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="chatbox">
-        <div id="chatlog"></div>
-        <input id="userInput" type="text" placeholder="Type a message..." />
-        <button onclick="sendMessage()">Send</button>
+    <div class="chat-container">
+        <h2>💬 AI Chatbot Assistant</h2>
+        <div id="chatlog" class="chatlog"></div>
+        <div class="input-area">
+            <input id="userInput" type="text" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
     </div>
 
     <script>
@@ -16,7 +19,8 @@
             let userText = document.getElementById("userInput").value;
             if (!userText) return;
 
-            document.getElementById("chatlog").innerHTML += "<p><b>You:</b> " + userText + "</p>";
+            document.getElementById("chatlog").innerHTML += 
+                "<div class='message user'><span>You:</span> " + userText + "</div>";
             document.getElementById("userInput").value = "";
 
             let response = await fetch("/get", {
@@ -25,7 +29,10 @@
                 body: JSON.stringify({message: userText})
             });
             let data = await response.json();
-            document.getElementById("chatlog").innerHTML += "<p><b>Bot:</b> " + data.reply + "</p>";
+            document.getElementById("chatlog").innerHTML += 
+                "<div class='message bot'><span>Bot:</span> " + data.reply + "</div>";
+
+            document.getElementById("chatlog").scrollTop = document.getElementById("chatlog").scrollHeight;
         }
     </script>
 </body>
