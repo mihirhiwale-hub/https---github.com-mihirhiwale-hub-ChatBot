@@ -1,14 +1,28 @@
+# TASK 2: AI-Powered Chatbot (Rule-Based + ML with NLP)
+
+import datetime
+import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-import datetime
 
+# -------------------------
+# NLP Preprocessing Function
+# -------------------------
+def preprocess(text):
+    text = text.lower()
+    text = re.sub(r'[^a-z\s]', '', text)
+    return text
+
+# -------------------------
+# Training Data (Intent Identification)
+# -------------------------
 training_sentences = [
     "hello", "hi", "hey",
     "bye", "goodbye",
     "thanks", "thank you",
     "help", "what can you do",
-    "how are you",
-    "who are you"
+    "who are you",
+    "how are you"
 ]
 
 intents = [
@@ -16,38 +30,52 @@ intents = [
     "bye", "bye",
     "thanks", "thanks",
     "help", "help",
-    "status",
-    "identity"
+    "identity",
+    "status"
 ]
 
+processed_training = [preprocess(s) for s in training_sentences]
+
 vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(training_sentences)
+X = vectorizer.fit_transform(processed_training)
 
 model = MultinomialNB()
 model.fit(X, intents)
 
 print("Chatbot started! Type 'exit' to stop.")
 
+# -------------------------
+# Conversation Flow
+# -------------------------
 while True:
-    user_input = input("You: ").lower()
+    user_input = input("You: ")
 
-    if user_input == "exit":
+    if user_input.lower() == "exit":
         print("Bot: Chat ended.")
         break
 
-    # RULE-BASED PART (Fix)
-    if "time" in user_input:
+    clean_input = preprocess(user_input)
+
+    # -------------------------
+    # Rule-Based FAQ Responses
+    # -------------------------
+    if "time" in clean_input:
         print("Bot:", datetime.datetime.now().strftime("%H:%M:%S"))
         continue
 
-    if "date" in user_input:
+    if "date" in clean_input:
         print("Bot:", datetime.date.today())
         continue
 
-    # ML PART
-    transformed = vectorizer.transform([user_input])
+    # -------------------------
+    # ML Intent Classification
+    # -------------------------
+    transformed = vectorizer.transform([clean_input])
     intent = model.predict(transformed)[0]
 
+    # -------------------------
+    # Responses
+    # -------------------------
     if intent == "greeting":
         print("Bot: Hello! How can I help you?")
 
@@ -60,11 +88,12 @@ while True:
     elif intent == "help":
         print("Bot: I can chat, tell time/date, and answer simple questions.")
 
-    elif intent == "status":
-        print("Bot: I am working perfectly!")
-
     elif intent == "identity":
         print("Bot: I am an AI chatbot created for Task-2 project.")
 
+    elif intent == "status":
+        print("Bot: I am working perfectly!")
+
     else:
-        print("Bot: I don't understand.")
+        # Fallback response
+        print("Bot: I don't understand. Please try again.")
