@@ -1,0 +1,54 @@
+TASK 2: AI-Powered Chatbot (Rule-Based + ML)
+Task Name
+
+AI-Powered Chatbot using Rule-Based and Machine Learning Approach
+
+Objective
+
+To develop a simple chatbot that can understand user input and respond automatically using predefined rules and a basic machine-learning intent classification model.
+
+Description
+
+The AI chatbot is designed to simulate a simple conversation with users.
+It uses Natural Language Processing (NLP) techniques to identify the user’s intent and respond accordingly.
+
+The chatbot works in two parts:
+
+Rule-based system
+
+Handles specific commands like time and date.
+
+Machine-learning system
+
+Uses Naive Bayes classification to identify user intent.
+
+Responds to greetings, help requests, thanks, and basic questions.
+
+The chatbot runs in a console interface where the user types messages and receives responses.
+
+Output (Example)
+Chatbot started! Type 'exit' to stop.
+
+You: hello
+Bot: Hello! How can I help you?
+
+You: who are you
+Bot: I am an AI chatbot created for Task-2 project.
+
+You: time
+Bot: 14:35:21
+
+
+Technologies Used
+
+Python
+
+Scikit-learn
+
+Natural Language Processing (NLP)
+
+CountVectorizer
+
+Naive Bayes Algorithm
+
+VS Code
